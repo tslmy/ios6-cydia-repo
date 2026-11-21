@@ -4,13 +4,25 @@
 Needs only Python 3 (no dpkg), so it runs the same on a Mac and in CI.
 Each directory under packages/ is a package root: DEBIAN/ plus the files to install.
 """
-import bz2, gzip, hashlib, html, io, os, shutil, sys, tarfile, time
+
+import bz2
+import gzip
+import hashlib
+import html
+import io
+import os
+import shutil
+import sys
+import tarfile
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 PKGS = ROOT / "packages"
 SITE = ROOT / "site"
-EPOCH = int(os.environ.get("SOURCE_DATE_EPOCH", "1793000000"))  # fixed => reproducible debs
+EPOCH = int(
+    os.environ.get("SOURCE_DATE_EPOCH", "1793000000")
+)  # fixed => reproducible debs
 
 
 def parse_control(text):
@@ -80,8 +92,12 @@ def build_deb(pkgdir, outdir):
     data_tgz = tar_gz(data_entries)
     shutil.rmtree(tmp)
 
-    deb = b"!<arch>\n" + ar_member("debian-binary", b"2.0\n") \
-        + ar_member("control.tar.gz", control_tgz) + ar_member("data.tar.gz", data_tgz)
+    deb = (
+        b"!<arch>\n"
+        + ar_member("debian-binary", b"2.0\n")
+        + ar_member("control.tar.gz", control_tgz)
+        + ar_member("data.tar.gz", data_tgz)
+    )
     fname = f"{ctrl['Package']}_{ctrl['Version']}_{ctrl['Architecture']}.deb"
     (outdir / fname).write_bytes(deb)
     return fname, ctrl_text, deb
@@ -97,14 +113,25 @@ def main():
     debs = SITE / "debs"
     debs.mkdir(parents=True)
     stanzas, rows = [], []
-    for pkgdir in sorted(p for p in PKGS.iterdir() if (p / "DEBIAN" / "control").exists()):
+    for pkgdir in sorted(
+        p for p in PKGS.iterdir() if (p / "DEBIAN" / "control").exists()
+    ):
         fname, ctrl_text, deb = build_deb(pkgdir, debs)
         d = digests(deb)
-        stanzas.append(ctrl_text + f"Filename: debs/{fname}\nSize: {len(deb)}\n"
-                       f"MD5sum: {d['md5']}\nSHA1: {d['sha1']}\nSHA256: {d['sha256']}\n")
+        stanzas.append(
+            ctrl_text + f"Filename: debs/{fname}\nSize: {len(deb)}\n"
+            f"MD5sum: {d['md5']}\nSHA1: {d['sha1']}\nSHA256: {d['sha256']}\n"
+        )
         c = parse_control(ctrl_text)
-        rows.append((c.get("Name", c["Package"]), c["Package"], c["Version"],
-                     c["Description"].splitlines()[0], f"debs/{fname}"))
+        rows.append(
+            (
+                c.get("Name", c["Package"]),
+                c["Package"],
+                c["Version"],
+                c["Description"].splitlines()[0],
+                f"debs/{fname}",
+            )
+        )
         print("built", fname, len(deb), "bytes")
 
     packages = ("\n".join(stanzas)).encode()
@@ -112,11 +139,17 @@ def main():
     (SITE / "Packages.gz").write_bytes(gzip.compress(packages, 9, mtime=0))
     (SITE / "Packages.bz2").write_bytes(bz2.compress(packages, 9))
 
-    lines = ["Origin: tslmy", "Label: tslmy's legacy iOS repo", "Suite: stable",
-             "Version: 1.0", "Codename: ios", "Architectures: iphoneos-arm",
-             "Components: main",
-             "Description: Packages for jailbroken iOS 6 devices"
-             f"\nDate: {time.strftime('%a, %d %b %Y %H:%M:%S UTC', time.gmtime())}"]
+    lines = [
+        "Origin: tslmy",
+        "Label: tslmy's legacy iOS repo",
+        "Suite: stable",
+        "Version: 1.0",
+        "Codename: ios",
+        "Architectures: iphoneos-arm",
+        "Components: main",
+        "Description: Packages for jailbroken iOS 6 devices"
+        f"\nDate: {time.strftime('%a, %d %b %Y %H:%M:%S UTC', time.gmtime())}",
+    ]
     for algo, key in (("MD5Sum", "md5"), ("SHA1", "sha1"), ("SHA256", "sha256")):
         lines.append(f"{algo}:")
         for n in ("Packages", "Packages.gz", "Packages.bz2"):
@@ -126,13 +159,16 @@ def main():
 
     items = "\n".join(
         f"<li><b>{html.escape(n)}</b> <code>{html.escape(p)} {html.escape(v)}</code><br>"
-        f"{html.escape(d)} (<a href=\"{f}\">.deb</a>)</li>" for n, p, v, d, f in rows)
+        f'{html.escape(d)} (<a href="{f}">.deb</a>)</li>'
+        for n, p, v, d, f in rows
+    )
     (SITE / "index.html").write_text(
         "<!doctype html><meta charset=utf-8><meta name=viewport content='width=device-width'>"
         "<title>Legacy iOS repo</title><h1>Legacy iOS repo</h1>"
         "<p>Add this URL as a source in Cydia (iOS 6 armv7):</p><pre id=u></pre>"
         "<script>u.textContent=location.href.replace(/index\\.html$/,'')</script>"
-        f"<ul>{items}</ul>")
+        f"<ul>{items}</ul>"
+    )
     (SITE / ".nojekyll").write_text("")
     print("site/ ready")
 
