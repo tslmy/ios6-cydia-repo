@@ -1,4 +1,4 @@
-exclude: ^packages/ca-certificates/etc/ssl/certs/cacert\.pem$
+exclude: ^packages/ca-certificates-mozilla/etc/ssl/certs/cacert\.pem$
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0

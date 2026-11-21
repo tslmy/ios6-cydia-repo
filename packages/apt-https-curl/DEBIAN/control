@@ -1,10 +1,10 @@
 Package: apt-https-curl
 Name: HTTPS for APT (curl)
-Version: 1.0.1
+Version: 1.0.2
 Architecture: iphoneos-arm
 Section: System
 Priority: optional
-Depends: curl, ca-certificates
+Depends: curl, ca-certificates-mozilla
 Maintainer: tslmy
 Author: tslmy
 Description: HTTPS support for Cydia and apt on iOS 6, via curl
