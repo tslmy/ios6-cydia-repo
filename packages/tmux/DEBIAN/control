@@ -1,0 +1,13 @@
+Package: tmux
+Name: tmux
+Version: 3.7~next+ge9afd2b-1
+Architecture: iphoneos-arm
+Section: Terminal_Support
+Priority: optional
+Depends: ncurses
+Homepage: https://github.com/tmux/tmux
+Maintainer: tslmy
+Author: Nicholas Marriott and tmux contributors
+Description: Terminal multiplexer for iOS 6 (armv7)
+ tmux built unmodified from upstream (commit e9afd2b) for iOS 6.1, with a
+ static libevent and without utf8proc.
