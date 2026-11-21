@@ -1,0 +1,30 @@
+#!/bin/sh
+# Move the stock https method aside before dpkg unpacks ours over it.
+M=/usr/lib/apt/methods/https
+D=/usr/lib/apt/methods/https.cfnetwork
+
+case "$1" in
+install|upgrade)
+    LIST=$(dpkg-divert --list "$M" 2>/dev/null)
+    case "$LIST" in
+    *"by apt-https-curl"*)
+        : ;;  # our own diversion from an earlier version
+    *"local diversion"*)
+        # Installed by hand earlier: drop that copy and the local diversion
+        # (this puts the stock method back), then divert properly below.
+        rm -f "$M"
+        dpkg-divert --local --rename --remove "$M" || exit 1
+        dpkg-divert --package apt-https-curl --rename --divert "$D" --add "$M" || exit 1
+        ;;
+    "")
+        dpkg-divert --package apt-https-curl --rename --divert "$D" --add "$M" || exit 1
+        ;;
+    *)
+        echo "apt-https-curl: $M is already diverted by something else:" >&2
+        echo "$LIST" >&2
+        exit 1
+        ;;
+    esac
+    ;;
+esac
+exit 0

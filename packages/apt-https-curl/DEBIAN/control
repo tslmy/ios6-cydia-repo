@@ -1,0 +1,14 @@
+Package: apt-https-curl
+Name: HTTPS for APT (curl)
+Version: 1.0
+Architecture: iphoneos-arm
+Section: System
+Priority: optional
+Depends: curl, ca-certificates
+Maintainer: tslmy
+Author: tslmy
+Description: HTTPS support for Cydia and apt on iOS 6, via curl
+ Replaces apt's "https" download method with one that runs curl (OpenSSL).
+ iOS 6's system TLS library has no AES-GCM, so repos on GCM-only servers fail
+ with error -1200. The original method is kept as https.cfnetwork and comes
+ back when this package is removed.

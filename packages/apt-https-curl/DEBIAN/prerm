@@ -1,0 +1,13 @@
+#!/bin/sh
+# On removal, delete our method and restore the stock one.
+M=/usr/lib/apt/methods/https
+
+case "$1" in
+remove|deconfigure)
+    if dpkg-divert --list "$M" 2>/dev/null | grep -q "by apt-https-curl"; then
+        rm -f "$M"
+        dpkg-divert --package apt-https-curl --rename --remove "$M"
+    fi
+    ;;
+esac
+exit 0
