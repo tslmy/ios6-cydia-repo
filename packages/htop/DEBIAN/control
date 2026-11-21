@@ -1,0 +1,13 @@
+Package: htop
+Name: htop
+Version: 3.5.0~dev+gba98c8e-1
+Architecture: iphoneos-arm
+Section: Terminal_Support
+Priority: optional
+Depends: ncurses
+Homepage: https://htop.dev/
+Maintainer: tslmy
+Author: htop contributors
+Description: Interactive process viewer for iOS 6 (armv7)
+ htop built for iOS 6.1 with the iPhoneOS 6.1 SDK, without Unicode, sensors
+ or hwloc support. Source: https://github.com/tslmy/htop (branch ios6).
