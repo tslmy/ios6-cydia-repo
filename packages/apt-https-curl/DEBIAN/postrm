@@ -1,11 +1,10 @@
 #!/bin/sh
-# On removal, delete our method and restore the stock one.
+# Runs after dpkg has deleted our file, so the stock method can be moved back.
 M=/usr/lib/apt/methods/https
 
 case "$1" in
-remove|deconfigure)
+remove|purge|disappear)
     if dpkg-divert --list "$M" 2>/dev/null | grep -q "by apt-https-curl"; then
-        rm -f "$M"
         dpkg-divert --package apt-https-curl --rename --remove "$M"
     fi
     ;;

@@ -1,6 +1,6 @@
 Package: apt-https-curl
 Name: HTTPS for APT (curl)
-Version: 1.0
+Version: 1.0.1
 Architecture: iphoneos-arm
 Section: System
 Priority: optional
