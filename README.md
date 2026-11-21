@@ -2,6 +2,9 @@
 
 Packages for jailbroken iOS 6 (armv7) devices, published as a flat apt repo on GitHub Pages.
 
+<img width="511" height="311" alt="This repo, on a real iOS 6 device" src="https://github.com/user-attachments/assets/eeaca317-3d3a-416f-9a98-5197290256fa" />
+
+
 - `packages/<name>/`: one directory per package (`DEBIAN/` plus the files to install).
 - `src/`: sources for prebuilt binaries. Cross-compile on a Mac, `ldid -S`, then copy the binary into `packages/`.
 - `build.py`: builds `site/` (debs, `Packages`, `Packages.gz`, `Packages.bz2`, `Release`, `index.html`). Python 3 only, no dpkg needed.
