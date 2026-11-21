@@ -16,10 +16,10 @@ python3 build.py && python3 -m http.server -d site 8000
 | Package | What it does |
 | --- | --- |
 | `apt-https-curl` | apt `https` method that runs curl, so Cydia can reach GCM-only HTTPS repos. Rebuild: see `src/apt-https-curl/https.c` (header comment) and the project README. |
-| `ca-certificates` | Mozilla CA bundle at `/etc/ssl/certs/cacert.pem`. Version is the bundle date. |
+| `ca-certificates-mozilla` | Mozilla CA bundle at `/etc/ssl/certs/cacert.pem`; provides and replaces `ca-certificates` (Bingner pins that name at priority 1001, which would downgrade it). Version is the bundle date. |
 
-## Not yet tested on a device
+## Tested on a device
 
-The debs have been unpacked and listed on the Mac only. Before publishing, install both on the iPod and check:
-`Depends: curl, ca-certificates` names match what Cydia's repos call them, `dpkg -i` over the hand-installed
-copy works (preinst handles the old local diversion), and `dpkg -r apt-https-curl` restores the stock method.
+Both packages were installed on an iPod touch 4G (iOS 6.1.6): `dpkg -i` over the earlier hand-made setup, upgrade, remove (restores
+the stock `https` method), reinstall, `apt-get update` over HTTPS, and installing from this repo through apt.
+`ca-certificates-mozilla` replaces Bingner's `ca-certificates`; `apt-get upgrade` no longer wants to downgrade the bundle.

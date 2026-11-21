@@ -1,12 +1,17 @@
-Package: ca-certificates
-Name: CA Certificates
+Package: ca-certificates-mozilla
+Name: CA Certificates (Mozilla)
 Version: 20261106
 Architecture: iphoneos-arm
 Section: System
 Priority: optional
+Provides: ca-certificates
+Replaces: ca-certificates
+Conflicts: ca-certificates
 Maintainer: tslmy
 Author: Mozilla (bundle), packaged by tslmy
 Description: Current Mozilla root certificates for curl, wget and git
  Installs /etc/ssl/certs/cacert.pem, the Mozilla CA bundle as curl ships it.
  Old jailbreak bundles from 2019 and earlier lack newer roots, so HTTPS sites
- fail verification. The version is the date of the bundle.
+ fail verification. Replaces the ca-certificates package; it has its own name
+ because Bingner's repo pins ca-certificates at priority 1001, which would
+ downgrade this bundle. The version is the date of the bundle.
