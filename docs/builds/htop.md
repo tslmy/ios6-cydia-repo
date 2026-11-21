@@ -1,8 +1,13 @@
 # htop
 
-Built from [tslmy/htop](https://github.com/tslmy/htop), branch `ios6` (commit `eda4f742`). The iOS 6.1 support is merged
-upstream in [htop-dev/htop#1828](https://github.com/htop-dev/htop/pull/1828), so a current upstream checkout should work too.
+Built from upstream [htop-dev/htop](https://github.com/htop-dev/htop). iOS 6.1 support was merged in commit `347084b8`
+([#1828](https://github.com/htop-dev/htop/pull/1828)) and is part of release 3.5.0 and later, so no fork is involved.
 Set up the [toolchain](../toolchain.md) first.
+
+**Provenance of the shipped binary:** it was built from `eda4f742`, the head of that pull request, which is the second parent
+of `347084b8`. The three files the PR changed (`configure.ac`, `darwin/DarwinMachine.c`, `darwin/Platform.c`) are identical in
+`347084b8`; the rest of the tree differs by 8 unrelated upstream files. The next rebuild should use `347084b8` or the `3.5.0` tag
+and bump the package revision.
 
 ## Patch the SDK
 
@@ -23,7 +28,7 @@ device SDK either, so the build adds the simulator SDK's `usr/include` to the in
 ## Build
 
 ```sh
-git clone -b ios6 https://github.com/tslmy/htop && cd htop && git checkout eda4f742
+git clone https://github.com/htop-dev/htop && cd htop && git checkout 347084b8
 ./autogen.sh
 ./configure --host=armv7-apple-darwin --disable-unicode --disable-sensors --disable-hwloc \
   CFLAGS="-arch armv7 -miphoneos-version-min=6.1 -isysroot $IOS6_SDK_PATH \
