@@ -339,6 +339,8 @@ library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.
 
 ---
-htop is licensed under GPL-2.0-or-later (text above). This binary was built from
-https://github.com/tslmy/htop, branch ios6 (upstream: https://github.com/htop-dev/htop,
-iOS 6.1 support merged in htop-dev/htop#1828), commit eda4f742.
+htop is licensed under GPL-2.0-or-later (text above). Source: https://github.com/htop-dev/htop.
+The iOS 6.1 support was merged upstream in commit 347084b8 (pull request #1828) and has shipped
+since release 3.5.0. This binary was built from eda4f742, the head commit of that pull request and the
+second parent of 347084b8; the three files the pull request changed are identical in 347084b8.
+Build notes: https://github.com/tslmy/ios6-cydia-repo/blob/main/docs/builds/htop.md
