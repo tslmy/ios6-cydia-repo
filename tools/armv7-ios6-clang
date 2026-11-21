@@ -1,0 +1,10 @@
+#!/bin/bash
+# clang wrapper that targets iOS 6.1 armv7 with the Xcode 4.6.3 toolchain.
+# Set IOS6_TOOLCHAIN (the copied-out XcodeDefault.xctoolchain) and IOS6_SDK_PATH (iPhoneOS6.1.sdk); see docs/toolchain.md.
+: "${IOS6_TOOLCHAIN:?set IOS6_TOOLCHAIN, see docs/toolchain.md}"
+: "${IOS6_SDK_PATH:?set IOS6_SDK_PATH, see docs/toolchain.md}"
+exec "$IOS6_TOOLCHAIN/usr/bin/clang" \
+  -arch armv7 \
+  -miphoneos-version-min=6.1 \
+  -isysroot "$IOS6_SDK_PATH" \
+  "$@"

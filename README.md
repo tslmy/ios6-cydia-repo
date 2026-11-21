@@ -16,8 +16,15 @@ python3 build.py && python3 -m http.server -d site 8000
 | Package | What it does |
 | --- | --- |
 | `apt-https-curl` | apt `https` method that runs curl, so Cydia can reach GCM-only HTTPS repos. Rebuild: see `src/apt-https-curl/https.c` (header comment) and the project README. |
-| `htop` | Interactive process viewer, built from [tslmy/htop](https://github.com/tslmy/htop) (iOS 6.1 support merged upstream in htop-dev/htop#1828). Build notes: `src/htop/BUILD.md`. |
+| `htop` | Interactive process viewer, built from [tslmy/htop](https://github.com/tslmy/htop) (iOS 6.1 support merged upstream in htop-dev/htop#1828). |
+| `tmux` | Terminal multiplexer, unmodified upstream (`next-3.7`), static libevent. |
+| `cmatrix` | Falling-characters terminal screensaver, unmodified upstream. |
 | `ca-certificates-mozilla` | Mozilla CA bundle at `/etc/ssl/certs/cacert.pem`; provides and replaces `ca-certificates` (Bingner pins that name at priority 1001, which would downgrade it). Version is the bundle date. |
+
+## Documentation
+
+How to reproduce every binary and how to add a package: [docs/toolchain.md](docs/toolchain.md), [docs/packaging.md](docs/packaging.md),
+and one recipe per package in [docs/builds/](docs/builds/). Apple's toolchain, SDK and headers are not in this repo; you extract them yourself.
 
 ## Tested on a device
 
